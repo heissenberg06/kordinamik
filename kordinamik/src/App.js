@@ -1,0 +1,64 @@
+import React, { useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import Home from "./pages/Home";
+import Iletisim from "./pages/Iletisim";
+import BizKimiz from "./pages/BizKimiz";
+import UserTypeSelection from "./pages/UserTypeSelection";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import DealerRegister from "./pages/DealerRegister";
+import Kalite from "./pages/Kalite";
+import Urunlerimiz from "./pages/Urunlerimiz";
+import UrunDetay from "./pages/UrunDetay";
+import DealerProfile from "./pages/DealerProfile";
+import Cart from "./pages/Cart";
+
+
+import { LanguageProvider } from './components/LanguageContext';
+import { DealerProvider } from './components/DealerContext';
+import { CartProvider } from './components/CartContext';
+
+// Scroll to top on route change to avoid landing mid-page
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  }, [pathname]);
+
+  return null;
+}
+
+function App() {
+  return (
+    <LanguageProvider>
+      <DealerProvider>
+        <CartProvider>
+          <Router>
+            <ScrollToTop />
+            <Navbar />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/urunlerimiz" element={<Urunlerimiz />} />
+              <Route path="/urunlerimiz/:id" element={<UrunDetay />} />
+              <Route path="/biz-kimiz" element={<BizKimiz />} />
+              <Route path="/kalite" element={<Kalite />} />
+              <Route path="/iletisim" element={<Iletisim />} />
+              <Route path="/giris" element={<UserTypeSelection />} />
+              <Route path="/giris/:userType" element={<Login />} />
+              <Route path="/kayit/:userType" element={<Register />} />
+              <Route path="/bayi-kayit" element={<DealerRegister />} />
+              <Route path="/bayi-profil" element={<DealerProfile />} />
+              <Route path="/sepet" element={<Cart />} />
+            </Routes>
+            <Footer />
+          </Router>
+        </CartProvider>
+      </DealerProvider>
+    </LanguageProvider>
+  );
+}
+
+export default App;

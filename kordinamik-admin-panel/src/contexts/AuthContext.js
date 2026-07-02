@@ -52,48 +52,28 @@ export const AuthProvider = ({ children }) => {
     setError(null);
     
     try {
+      // authService.login returns response.data: { status, data: { admin, accessToken } }
       const response = await authService.login(credentials);
-      console.log('Login successful, full response:', response);
-      
-      // Get the token from the response
-      let accessToken = null;
-      
-      // Check different possible response structures
-      if (response.data?.accessToken) {
-        accessToken = response.data.accessToken;
-      } else if (response.data?.data?.accessToken) {
-        accessToken = response.data.data.accessToken;
-      } else {
-        console.error('Unexpected response structure:', response);
-        setError('Unexpected response from server');
+      const accessToken = response.data?.accessToken;
+
+      if (!accessToken) {
+        setError('Sunucudan geçersiz yanıt alındı');
         setLoading(false);
         return false;
       }
-      
-      // Store the token
+
       localStorage.setItem('accessToken', accessToken);
-      
-      // Decode the token and set the current admin
-      try {
-        const decodedToken = jwtDecode(accessToken);
-        console.log('Decoded token:', decodedToken);
-        
-        setCurrentAdmin({
-          id: decodedToken.id || decodedToken.sub,
-          username: decodedToken.username || decodedToken.name,
-        });
-        
-        setLoading(false);
-        return true;
-      } catch (tokenError) {
-        console.error('Token decode error:', tokenError);
-        setError('Error processing authentication token');
-        setLoading(false);
-        return false;
-      }
+
+      const decodedToken = jwtDecode(accessToken);
+      setCurrentAdmin({
+        id: decodedToken.id,
+        username: decodedToken.username,
+      });
+
+      setLoading(false);
+      return true;
     } catch (err) {
-      console.error('Login error in context:', err);
-      setError(err.response?.data?.message || 'Login failed');
+      setError(err.response?.data?.message || 'Giriş başarısız');
       setLoading(false);
       return false;
     }
@@ -111,7 +91,6 @@ export const AuthProvider = ({ children }) => {
     
     // Clear storage and state
     localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
     setCurrentAdmin(null);
     setLoading(false);
   };

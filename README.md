@@ -2,6 +2,9 @@
 
 Kordinamik için ana site, bayi/admin yönetim sistemi ve garanti kayıt uygulamalarını içeren monorepo.
 
+
+
+  
 ## Proje Yapısı
 
 | Klasör | Açıklama | Stack | Port |

@@ -21,9 +21,18 @@ const authenticateAdmin = async (req, res, next) => {
     
     // Verify token
     const decoded = verifyAccessToken(token);
-    
+
+    // Check if token is blacklisted
+    const { Admin, TokenBlacklist } = db.initModels();
+    const isBlacklisted = await TokenBlacklist.findOne({ where: { token } });
+    if (isBlacklisted) {
+      return res.status(401).json({
+        status: 'error',
+        message: 'Token has been revoked'
+      });
+    }
+
     // Get admin from database
-    const { Admin } = db.initModels();
     const admin = await Admin.findByPk(decoded.id);
     if (!admin || !admin.is_active) {
       return res.status(401).json({

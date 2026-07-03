@@ -450,7 +450,15 @@ function Navbar() {
                   }}
                 >
                   <AccountCircleIcon />
-                  <span>{dealer?.company_name || dealer?.email}</span>
+                  <span style={{
+                    maxWidth: '160px',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    display: 'inline-block',
+                  }}>
+                    {dealer?.company_name || dealer?.email}
+                  </span>
                 </Box>
                 <IconButton onClick={handleLogout} sx={{ color: "white", ml: 1 }}>
                   <LogoutIcon />

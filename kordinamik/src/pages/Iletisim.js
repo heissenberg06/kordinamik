@@ -15,7 +15,7 @@ const PageContainer = styled(Box)({
 });
 
 const BgDecoration = styled(Box)(({ size, top, left, right, bottom, delay }) => ({
-  position: "fixed",
+  position: "absolute",
   width: size,
   height: size,
   borderRadius: "50%",
@@ -235,6 +235,11 @@ const MapSection = styled(Box)({
   height: "500px",
   boxShadow: "0 20px 60px rgba(0,0,0,0.2)",
   animation: "fadeIn 1.2s ease-out",
+  "@media (max-width: 768px)": {
+    height: "280px",
+    marginTop: "40px",
+    borderRadius: "16px",
+  },
   "@keyframes fadeIn": {
     from: { opacity: 0 },
     to: { opacity: 1 },

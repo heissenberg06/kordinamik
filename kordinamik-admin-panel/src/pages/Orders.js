@@ -102,13 +102,15 @@ const Orders = () => {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: 2,
           mb: 3,
         }}
       >
         <Typography variant="h1" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <ShoppingCartIcon fontSize="large" /> Siparişler
         </Typography>
-        <Box sx={{ display: 'flex', gap: 1 }}>
+        <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
           <Button
             variant={statusFilter === '' ? 'contained' : 'outlined'}
             onClick={() => setStatusFilter('')}

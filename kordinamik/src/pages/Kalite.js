@@ -26,7 +26,7 @@ const PageContainer = styled(Box)({
 });
 
 const BgDecoration = styled(Box)(({ size, top, left, right, bottom, delay }) => ({
-  position: "fixed",
+  position: "absolute",
   width: size,
   height: size,
   borderRadius: "50%",
@@ -122,6 +122,9 @@ const CertificateImage = styled("img")({
   objectFit: "cover",
   transition: "transform 0.3s ease",
   display: "block",
+  "@media (max-width: 480px)": {
+    height: "260px",
+  },
 });
 
 const CertificateOverlay = styled(Box)({

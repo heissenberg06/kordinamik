@@ -211,19 +211,17 @@ const Dashboard = () => {
         Dashboard
       </Typography>
       
-      {/* Stats + Recent Orders row (fixed side-by-side with horizontal scroll if needed) */}
+      {/* Stats + Recent Orders row */}
       <Box
         sx={{
           mb: 5,
-          display: 'flex',
+          display: 'grid',
+          gridTemplateColumns: { xs: '1fr', xl: '3fr 2fr' },
           gap: 3,
-          flexWrap: 'nowrap',
-          overflowX: 'auto',
           alignItems: 'stretch',
-          pb: 1,
         }}
       >
-        <Box sx={{ flex: '0 0 auto', minWidth: 720 }}>
+        <Box>
           <Grid container spacing={3}>
             <Grid item xs={6} sm={6} md={6} lg={3}>
               <StatCard sx={{ background: 'linear-gradient(135deg, #fff5f5 0%, #ffe7e7 100%)', height: 230 }}>
@@ -281,7 +279,7 @@ const Dashboard = () => {
           </Grid>
         </Box>
 
-        <Box sx={{ flex: '1 1 0%', minWidth: 400 }}>
+        <Box>
           <StatCard sx={{ height: 230, display: 'flex', flexDirection: 'column' }}>
             <CardContent>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>

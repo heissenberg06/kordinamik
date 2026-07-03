@@ -304,10 +304,10 @@ const DealerApplications = () => {
               <TableHead>
                 <TableRow>
                   <TableCell>Şirket Adı</TableCell>
-                  <TableCell>İletişim Kişisi</TableCell>
+                  <TableCell sx={{ display: { xs: 'none', md: 'table-cell' } }}>İletişim Kişisi</TableCell>
                   <TableCell>E-posta</TableCell>
-                  <TableCell>Telefon</TableCell>
-                  <TableCell>Başvuru Tarihi</TableCell>
+                  <TableCell sx={{ display: { xs: 'none', md: 'table-cell' } }}>Telefon</TableCell>
+                  <TableCell sx={{ display: { xs: 'none', lg: 'table-cell' } }}>Başvuru Tarihi</TableCell>
                   <TableCell>Durum</TableCell>
                   <TableCell align="right">İşlemler</TableCell>
                 </TableRow>
@@ -321,10 +321,10 @@ const DealerApplications = () => {
                       sx={{ cursor: 'pointer' }}
                     >
                       <TableCell>{application.company_name}</TableCell>
-                      <TableCell>{application.contact_name}</TableCell>
+                      <TableCell sx={{ display: { xs: 'none', md: 'table-cell' } }}>{application.contact_name}</TableCell>
                       <TableCell>{application.email}</TableCell>
-                      <TableCell>{application.phone}</TableCell>
-                      <TableCell>{formatDate(application.created_at)}</TableCell>
+                      <TableCell sx={{ display: { xs: 'none', md: 'table-cell' } }}>{application.phone}</TableCell>
+                      <TableCell sx={{ display: { xs: 'none', lg: 'table-cell' } }}>{formatDate(application.created_at)}</TableCell>
                       <TableCell>
                         <StatusChip
                           label={

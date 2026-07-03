@@ -146,7 +146,7 @@ const theme = createTheme({
         root: {
           borderRadius: 16,
           boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.08)',
-          overflow: 'visible',
+          overflow: 'hidden',
         },
       },
     },

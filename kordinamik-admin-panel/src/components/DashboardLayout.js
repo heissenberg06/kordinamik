@@ -36,8 +36,8 @@ import { useAuth } from '../contexts/AuthContext';
 const drawerWidth = 280;
 
 const StyledAppBar = styled(AppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})(({ theme, open }) => ({
+  shouldForwardProp: (prop) => prop !== 'open' && prop !== 'isMobile',
+})(({ theme, open, isMobile }) => ({
   zIndex: theme.zIndex.drawer + 1,
   transition: theme.transitions.create(['width', 'margin'], {
     easing: theme.transitions.easing.sharp,
@@ -45,7 +45,7 @@ const StyledAppBar = styled(AppBar, {
   }),
   background: 'linear-gradient(135deg, #dc2626 0%, #991b1b 100%)',
   boxShadow: '0 10px 30px rgba(0,0,0,0.15)',
-  ...(open && {
+  ...(!isMobile && open && {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
     transition: theme.transitions.create(['width', 'margin'], {
@@ -175,7 +175,7 @@ const DashboardLayout = () => {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <StyledAppBar position="fixed" open={open}>
+      <StyledAppBar position="fixed" open={open} isMobile={isMobile}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -231,7 +231,12 @@ const DashboardLayout = () => {
           </Menu>
         </Toolbar>
       </StyledAppBar>
-      <StyledDrawer variant="permanent" open={open}>
+      <StyledDrawer
+        variant={isMobile ? 'temporary' : 'permanent'}
+        open={open}
+        onClose={handleDrawerClose}
+        ModalProps={{ keepMounted: true }}
+      >
         <DrawerHeader>
           <Typography
             variant="h6"

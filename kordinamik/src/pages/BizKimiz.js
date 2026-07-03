@@ -14,7 +14,7 @@ const PageContainer = styled(Box)({
 });
 
 const BgDecoration = styled(Box)(({ size, top, left, right, bottom, delay }) => ({
-  position: "fixed",
+  position: "absolute",
   width: size,
   height: size,
   borderRadius: "50%",

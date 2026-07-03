@@ -139,13 +139,13 @@ const Dealers = () => {
               <TableHead>
                 <TableRow>
                   <TableCell>Firma</TableCell>
-                  <TableCell>Yetkili</TableCell>
+                  <TableCell sx={{ display: { xs: 'none', lg: 'table-cell' } }}>Yetkili</TableCell>
                   <TableCell>E-posta</TableCell>
-                  <TableCell>Telefon</TableCell>
-                  <TableCell>Şehir</TableCell>
-                  <TableCell>Onay Kodu</TableCell>
+                  <TableCell sx={{ display: { xs: 'none', md: 'table-cell' } }}>Telefon</TableCell>
+                  <TableCell sx={{ display: { xs: 'none', md: 'table-cell' } }}>Şehir</TableCell>
+                  <TableCell sx={{ display: { xs: 'none', lg: 'table-cell' } }}>Onay Kodu</TableCell>
                   <TableCell>Durum</TableCell>
-                  <TableCell>Kayıt Tarihi</TableCell>
+                  <TableCell sx={{ display: { xs: 'none', lg: 'table-cell' } }}>Kayıt Tarihi</TableCell>
                   <TableCell align="right">İşlemler</TableCell>
                 </TableRow>
               </TableHead>
@@ -159,11 +159,11 @@ const Dealers = () => {
                       onClick={() => setSelectedDealer(dealer)}
                     >
                       <TableCell>{dealer.company_name}</TableCell>
-                      <TableCell>{dealer.contact_name}</TableCell>
+                      <TableCell sx={{ display: { xs: 'none', lg: 'table-cell' } }}>{dealer.contact_name}</TableCell>
                       <TableCell>{dealer.email}</TableCell>
-                      <TableCell>{dealer.phone}</TableCell>
-                      <TableCell>{dealer.DealerApplication?.city || '-'}</TableCell>
-                      <TableCell>{dealer.approval_code || dealer.DealerApplication?.approval_code || '-'}</TableCell>
+                      <TableCell sx={{ display: { xs: 'none', md: 'table-cell' } }}>{dealer.phone}</TableCell>
+                      <TableCell sx={{ display: { xs: 'none', md: 'table-cell' } }}>{dealer.DealerApplication?.city || '-'}</TableCell>
+                      <TableCell sx={{ display: { xs: 'none', lg: 'table-cell' } }}>{dealer.approval_code || dealer.DealerApplication?.approval_code || '-'}</TableCell>
                       <TableCell>
                         <Chip
                           label={dealer.is_active ? 'Aktif' : 'Pasif'}
@@ -172,7 +172,7 @@ const Dealers = () => {
                           icon={dealer.is_active ? <CheckCircleIcon /> : <BlockIcon />}
                         />
                       </TableCell>
-                      <TableCell>{formatDate(dealer.created_at)}</TableCell>
+                      <TableCell sx={{ display: { xs: 'none', lg: 'table-cell' } }}>{formatDate(dealer.created_at)}</TableCell>
                       <TableCell align="right">
                         <Tooltip title="Sil">
                           <IconButton

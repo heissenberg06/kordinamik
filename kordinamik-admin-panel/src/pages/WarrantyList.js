@@ -11,6 +11,7 @@ import {
   TableRow,
   TablePagination,
   TextField,
+  Button,
   Stack,
   Divider,
   CircularProgress
@@ -102,16 +103,13 @@ const WarrantyList = () => {
             value={filters.end_date}
             onChange={handleFilterChange}
           />
-          <TextField
-            label=" "
-            size="small"
-            value="Filtreleri uygula"
-            InputProps={{
-              readOnly: true,
-              sx: { cursor: 'pointer', fontWeight: 600, color: 'primary.main' },
-              onClick: handleApplyFilters
-            }}
-          />
+          <Button
+            variant="outlined"
+            onClick={handleApplyFilters}
+            sx={{ height: 40, fontWeight: 600 }}
+          >
+            Filtreleri Uygula
+          </Button>
         </Stack>
       </Paper>
 

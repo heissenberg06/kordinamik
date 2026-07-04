@@ -7,7 +7,6 @@ import Iletisim from "./pages/Iletisim";
 import BizKimiz from "./pages/BizKimiz";
 import UserTypeSelection from "./pages/UserTypeSelection";
 import Login from "./pages/Login";
-import Register from "./pages/Register";
 import DealerRegister from "./pages/DealerRegister";
 import Kalite from "./pages/Kalite";
 import Urunlerimiz from "./pages/Urunlerimiz";
@@ -47,8 +46,7 @@ function App() {
               <Route path="/kalite" element={<Kalite />} />
               <Route path="/iletisim" element={<Iletisim />} />
               <Route path="/giris" element={<UserTypeSelection />} />
-              <Route path="/giris/:userType" element={<Login />} />
-              <Route path="/kayit/:userType" element={<Register />} />
+              <Route path="/giris/bayi" element={<Login />} />
               <Route path="/bayi-kayit" element={<DealerRegister />} />
               <Route path="/bayi-profil" element={<DealerProfile />} />
               <Route path="/sepet" element={<Cart />} />

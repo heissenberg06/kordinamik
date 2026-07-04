@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Box, styled, Alert } from "@mui/material";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import StorefrontIcon from "@mui/icons-material/Storefront";
-import PersonIcon from "@mui/icons-material/Person";
 import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -216,7 +215,6 @@ const RegisterPrompt = styled(Box)({
 const translations = {
   tr: {
     dealerLogin: "Bayi Girişi",
-    standardLogin: "Standart Kullanıcı Girişi",
     welcomeBack: "Tekrar Hoş Geldiniz!",
     loginSubtitle: "Hesabınıza giriş yapmak için bilgilerinizi girin",
     email: "E-posta Adresi",
@@ -233,7 +231,6 @@ const translations = {
   en: {
     backToSelection: "Go Back",
     dealerLogin: "Dealer Login",
-    standardLogin: "Standard User Login",
     welcomeBack: "Welcome Back!",
     loginSubtitle: "Enter your credentials to access your account",
     email: "Email Address",
@@ -250,7 +247,6 @@ const translations = {
   ru: {
     backToSelection: "Назад",
     dealerLogin: "Вход для дилера",
-    standardLogin: "Вход стандартного пользователя",
     welcomeBack: "С возвращением!",
     loginSubtitle: "Введите свои учетные данные для доступа к учетной записи",
     email: "Адрес электронной почты",
@@ -267,7 +263,6 @@ const translations = {
 };
 
 function Login() {
-  const { userType } = useParams();
   const navigate = useNavigate();
   const { currentLanguage } = useLanguage();
   const { login, error: dealerError } = useDealer();
@@ -280,8 +275,6 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const isDealer = userType === "bayi";
-
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -293,25 +286,15 @@ function Login() {
     e.preventDefault();
     setError("");
     setLoading(true);
-    
+
     try {
-      if (isDealer) {
-        // Dealer login
-        const success = await login(formData);
-        if (success) {
-          // Navigate to products page after successful login
-          navigate("/bayi-profil");
-        } else {
-          setError(dealerError || t.loginFailed);
-        }
+      const success = await login(formData);
+      if (success) {
+        navigate("/bayi-profil");
       } else {
-        // Standard user login (not implemented yet)
-        console.log("Standard user login:", formData);
-        // For now, just navigate to home
-        navigate("/");
+        setError(dealerError || t.loginFailed);
       }
     } catch (err) {
-      console.error("Login error:", err);
       setError(t.loginFailed);
     } finally {
       setLoading(false);
@@ -324,10 +307,8 @@ function Login() {
 
         <LoginCard>
           <UserTypeIndicator>
-            {isDealer ? <StorefrontIcon /> : <PersonIcon />}
-            <span className="type-text">
-              {isDealer ? t.dealerLogin : t.standardLogin}
-            </span>
+            <StorefrontIcon />
+            <span className="type-text">{t.dealerLogin}</span>
           </UserTypeIndicator>
 
           <Title>{t.welcomeBack}</Title>
@@ -392,7 +373,7 @@ function Login() {
 
           <RegisterPrompt>
             {t.noAccount}{" "}
-            <Link to={isDealer ? "/bayi-kayit" : `/kayit/${userType}`}>{t.register}</Link>
+            <Link to="/bayi-kayit">{t.register}</Link>
           </RegisterPrompt>
         </LoginCard>
       </Container>

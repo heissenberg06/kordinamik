@@ -10,6 +10,11 @@ import {
   Button,
   Divider,
   Alert,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
   styled,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -70,6 +75,7 @@ const Cart = () => {
   const [note, setNote] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [feedback, setFeedback] = useState(null);
+  const [clearDialogOpen, setClearDialogOpen] = useState(false);
   const navigate = useNavigate();
 
   const totalAmount = useMemo(
@@ -310,11 +316,35 @@ const Cart = () => {
               <Button
                 variant="text"
                 color="inherit"
-                onClick={clearCart}
+                onClick={() => setClearDialogOpen(true)}
                 disabled={submitting}
               >
                 Sepeti Temizle
               </Button>
+
+              <Dialog
+                open={clearDialogOpen}
+                onClose={() => setClearDialogOpen(false)}
+              >
+                <DialogTitle>Sepeti Temizle</DialogTitle>
+                <DialogContent>
+                  <DialogContentText>
+                    Sepetteki tüm ürünler silinecek. Emin misiniz?
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={() => setClearDialogOpen(false)}>
+                    İptal
+                  </Button>
+                  <Button
+                    color="error"
+                    variant="contained"
+                    onClick={() => { clearCart(); setClearDialogOpen(false); }}
+                  >
+                    Evet, Temizle
+                  </Button>
+                </DialogActions>
+              </Dialog>
               {!isAuthenticated && (
                 <Alert severity="info">
                   Siparişi tamamlamak için lütfen giriş yapın.

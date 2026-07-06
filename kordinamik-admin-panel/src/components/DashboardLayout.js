@@ -168,11 +168,6 @@ const DashboardLayout = () => {
     navigate('/login');
   };
 
-  const handleProfileClick = () => {
-    handleMenuClose();
-    navigate('/dashboard/profile');
-  };
-
   return (
     <Box sx={{ display: 'flex' }}>
       <StyledAppBar position="fixed" open={open} isMobile={isMobile}>
@@ -215,13 +210,6 @@ const DashboardLayout = () => {
             transformOrigin={{ horizontal: 'right', vertical: 'top' }}
             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
           >
-            <MenuItem onClick={handleProfileClick}>
-              <ListItemIcon>
-                <AccountCircleIcon fontSize="small" />
-              </ListItemIcon>
-              Profile
-            </MenuItem>
-            <Divider />
             <MenuItem onClick={handleLogout}>
               <ListItemIcon>
                 <LogoutIcon fontSize="small" />

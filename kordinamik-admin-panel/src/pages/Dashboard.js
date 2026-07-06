@@ -15,6 +15,7 @@ import {
   TableRow,
   Chip,
   CircularProgress,
+  Alert,
   styled,
   Dialog,
   DialogTitle,
@@ -123,6 +124,7 @@ const Dashboard = () => {
   const [ordersLoading, setOrdersLoading] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -178,6 +180,7 @@ const Dashboard = () => {
         
       } catch (error) {
         console.error('Error fetching dashboard data:', error);
+        setError('Dashboard verileri yüklenirken bir hata oluştu. Lütfen sayfayı yenileyin.');
       } finally {
         setLoading(false);
       }
@@ -210,6 +213,11 @@ const Dashboard = () => {
       <Typography variant="h1" gutterBottom>
         Dashboard
       </Typography>
+      {error && (
+        <Alert severity="error" sx={{ mb: 3 }} onClose={() => setError(null)}>
+          {error}
+        </Alert>
+      )}
       
       {/* Stats + Recent Orders row */}
       <Box

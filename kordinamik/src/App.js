@@ -13,7 +13,8 @@ import Urunlerimiz from "./pages/Urunlerimiz";
 import UrunDetay from "./pages/UrunDetay";
 import DealerProfile from "./pages/DealerProfile";
 import Cart from "./pages/Cart";
-
+import NotFound from "./pages/NotFound";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 import { LanguageProvider } from './components/LanguageContext';
 import { DealerProvider } from './components/DealerContext';
@@ -48,8 +49,9 @@ function App() {
               <Route path="/giris" element={<UserTypeSelection />} />
               <Route path="/giris/bayi" element={<Login />} />
               <Route path="/bayi-kayit" element={<DealerRegister />} />
-              <Route path="/bayi-profil" element={<DealerProfile />} />
+              <Route path="/bayi-profil" element={<ProtectedRoute><DealerProfile /></ProtectedRoute>} />
               <Route path="/sepet" element={<Cart />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
             <Footer />
           </Router>

@@ -3,8 +3,84 @@ import { Box, Card, CardContent, Typography, CircularProgress, Button, styled, D
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useDealer } from "../components/DealerContext";
+import { useLanguage } from "../components/LanguageContext";
 import axios from "axios";
 import { API_BASE_URL } from "../config";
+
+const translations = {
+  tr: {
+    pageTitle: "Bayi Profilim",
+    pageSubtitle: "Hesap bilgilerin ve son giriş detayların burada.",
+    logout: "Çıkış Yap",
+    contact: "Yetkili",
+    email: "E-posta",
+    phone: "Telefon",
+    taxId: "Vergi No",
+    address: "Adres",
+    businessType: "Faaliyet Alanı",
+    approvalCode: "Onay Kodu",
+    lastLogin: "Son Giriş",
+    recentOrders: "Son Siparişlerim",
+    recentOrdersSubtitle: "Verdiğiniz siparişlerin durumu burada listelenir.",
+    noOrders: "Henüz sipariş bulunmuyor.",
+    order: "Sipariş",
+    product: "ürün",
+    approved: "Onaylandı",
+    rejected: "Reddedildi",
+    pending: "Beklemede",
+    showAll: "Tümünü Gör",
+    showLess: "Daha Az Göster",
+    sessionNotFound: "Oturum bulunamadı. Lütfen giriş yapın.",
+  },
+  en: {
+    pageTitle: "Dealer Profile",
+    pageSubtitle: "Your account details and last login info.",
+    logout: "Log Out",
+    contact: "Contact",
+    email: "Email",
+    phone: "Phone",
+    taxId: "Tax ID",
+    address: "Address",
+    businessType: "Business Type",
+    approvalCode: "Approval Code",
+    lastLogin: "Last Login",
+    recentOrders: "My Recent Orders",
+    recentOrdersSubtitle: "Status of your placed orders is listed here.",
+    noOrders: "No orders yet.",
+    order: "Order",
+    product: "item(s)",
+    approved: "Approved",
+    rejected: "Rejected",
+    pending: "Pending",
+    showAll: "Show All",
+    showLess: "Show Less",
+    sessionNotFound: "Session not found. Please log in.",
+  },
+  ru: {
+    pageTitle: "Профиль дилера",
+    pageSubtitle: "Данные вашего аккаунта и последнего входа.",
+    logout: "Выйти",
+    contact: "Контакт",
+    email: "Эл. почта",
+    phone: "Телефон",
+    taxId: "ИНН",
+    address: "Адрес",
+    businessType: "Тип бизнеса",
+    approvalCode: "Код подтверждения",
+    lastLogin: "Последний вход",
+    recentOrders: "Мои последние заказы",
+    recentOrdersSubtitle: "Статус ваших заказов отображается здесь.",
+    noOrders: "Заказов пока нет.",
+    order: "Заказ",
+    product: "товар(ов)",
+    approved: "Одобрено",
+    rejected: "Отклонено",
+    pending: "Ожидание",
+    showAll: "Показать все",
+    showLess: "Показать меньше",
+    sessionNotFound: "Сессия не найдена. Пожалуйста, войдите.",
+  },
+};
 
 const PageContainer = styled(Box)({
   minHeight: "90vh",
@@ -73,9 +149,12 @@ const StatCard = styled(Box)({
 
 const DealerProfile = () => {
   const { dealer, fetchDealerProfile, logout, loading, getAuthHeader } = useDealer();
+  const { currentLanguage } = useLanguage();
+  const t = translations[currentLanguage] || translations.tr;
   const [refreshing, setRefreshing] = useState(false);
   const [orders, setOrders] = useState([]);
   const [ordersLoading, setOrdersLoading] = useState(false);
+  const [showAllOrders, setShowAllOrders] = useState(false);
 
   useEffect(() => {
     const ensureProfile = async () => {
@@ -124,7 +203,7 @@ const DealerProfile = () => {
       <PageContainer>
         <Container>
           <Typography variant="h5" sx={{ textAlign: "center", mt: 4 }}>
-            Oturum bulunamadı. Lütfen giriş yapın.
+            {t.sessionNotFound}
           </Typography>
         </Container>
       </PageContainer>
@@ -137,10 +216,10 @@ const DealerProfile = () => {
         <Header>
           <Box>
             <Typography variant="h4" sx={{ fontWeight: 800, color: "#0f172a", letterSpacing: "-0.5px" }}>
-              Bayi Profilim
+              {t.pageTitle}
             </Typography>
             <Typography sx={{ color: "#475569", mt: 0.5 }}>
-              Hesap bilgilerin ve son giriş detayların burada.
+              {t.pageSubtitle}
             </Typography>
           </Box>
           <Button
@@ -156,7 +235,7 @@ const DealerProfile = () => {
               "&:hover": { borderColor: "rgba(220,38,38,0.6)", backgroundColor: "rgba(220,38,38,0.06)" },
             }}
           >
-            Çıkış Yap
+            {t.logout}
           </Button>
         </Header>
 
@@ -172,25 +251,25 @@ const DealerProfile = () => {
             <StatGrid>
               <StatCard>
                 <Typography variant="body2" sx={{ textTransform: "uppercase", letterSpacing: 0.6, color: "#94a3b8" }}>
-                  Yetkili
+                  {t.contact}
                 </Typography>
                 <Typography sx={{ fontWeight: 700 }}>{dealer.contact_name}</Typography>
               </StatCard>
               <StatCard>
                 <Typography variant="body2" sx={{ textTransform: "uppercase", letterSpacing: 0.6, color: "#94a3b8" }}>
-                  E-posta
+                  {t.email}
                 </Typography>
                 <Typography sx={{ fontWeight: 700 }}>{dealer.email}</Typography>
               </StatCard>
               <StatCard>
                 <Typography variant="body2" sx={{ textTransform: "uppercase", letterSpacing: 0.6, color: "#94a3b8" }}>
-                  Telefon
+                  {t.phone}
                 </Typography>
                 <Typography sx={{ fontWeight: 700 }}>{dealer.phone}</Typography>
               </StatCard>
               <StatCard>
                 <Typography variant="body2" sx={{ textTransform: "uppercase", letterSpacing: 0.6, color: "#94a3b8" }}>
-                  Vergi No
+                  {t.taxId}
                 </Typography>
                 <Typography sx={{ fontWeight: 700 }}>{dealer.tax_id}</Typography>
               </StatCard>
@@ -199,25 +278,25 @@ const DealerProfile = () => {
             <StatGrid>
               <StatCard>
                 <Typography variant="body2" sx={{ textTransform: "uppercase", letterSpacing: 0.6, color: "#94a3b8" }}>
-                  Adres
+                  {t.address}
                 </Typography>
                 <Typography sx={{ fontWeight: 700 }}>{dealer.address || "-"}</Typography>
               </StatCard>
               <StatCard>
                 <Typography variant="body2" sx={{ textTransform: "uppercase", letterSpacing: 0.6, color: "#94a3b8" }}>
-                  Faaliyet Alanı
+                  {t.businessType}
                 </Typography>
                 <Typography sx={{ fontWeight: 700 }}>{dealer.business_type || "-"}</Typography>
               </StatCard>
               <StatCard>
                 <Typography variant="body2" sx={{ textTransform: "uppercase", letterSpacing: 0.6, color: "#94a3b8" }}>
-                  Onay Kodu
+                  {t.approvalCode}
                 </Typography>
                 <Typography sx={{ fontWeight: 700 }}>{dealer.approval_code || "-"}</Typography>
               </StatCard>
               <StatCard>
                 <Typography variant="body2" sx={{ textTransform: "uppercase", letterSpacing: 0.6, color: "#94a3b8" }}>
-                  Son Giriş
+                  {t.lastLogin}
                 </Typography>
                 <Typography sx={{ fontWeight: 700 }}>
                   {dealer.last_login ? new Date(dealer.last_login).toLocaleString("tr-TR") : "-"}
@@ -230,10 +309,10 @@ const DealerProfile = () => {
         <GlowCard sx={{ mt: 3 }}>
           <CardContent>
             <Typography variant="h6" sx={{ fontWeight: 800, mb: 1 }}>
-              Son Siparişlerim
+              {t.recentOrders}
             </Typography>
             <Typography variant="body2" sx={{ color: "#64748b", mb: 2 }}>
-              Verdiğiniz siparişlerin durumu burada listelenir.
+              {t.recentOrdersSubtitle}
             </Typography>
             <Divider sx={{ mb: 2 }} />
             {ordersLoading ? (
@@ -242,11 +321,11 @@ const DealerProfile = () => {
               </Box>
             ) : orders.length === 0 ? (
               <Typography sx={{ color: "#94a3b8" }}>
-                Henüz sipariş bulunmuyor.
+                {t.noOrders}
               </Typography>
             ) : (
               <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
-                {orders.slice(0, 5).map((order) => (
+                {(showAllOrders ? orders : orders.slice(0, 5)).map((order) => (
                   <Box
                     key={order.id}
                     sx={{
@@ -262,7 +341,7 @@ const DealerProfile = () => {
                   >
                     <Box>
                       <Typography sx={{ fontWeight: 700 }}>
-                        Sipariş #{order.id}
+                        {t.order} #{order.id}
                       </Typography>
                       <Typography sx={{ color: "#475569" }}>
                         {new Date(order.created_at).toLocaleString("tr-TR")}
@@ -274,16 +353,16 @@ const DealerProfile = () => {
                         })} ₺
                       </Typography>
                       <Typography sx={{ color: "#64748b", fontSize: "0.9rem" }}>
-                        {order.OrderItems?.length || 0} ürün
+                        {order.OrderItems?.length || 0} {t.product}
                       </Typography>
                     </Box>
                     <Chip
                       label={
                         order.status === "approved"
-                          ? "Onaylandı"
+                          ? t.approved
                           : order.status === "rejected"
-                          ? "Reddedildi"
-                          : "Beklemede"
+                          ? t.rejected
+                          : t.pending
                       }
                       color={
                         order.status === "approved"
@@ -295,6 +374,18 @@ const DealerProfile = () => {
                     />
                   </Box>
                 ))}
+                {orders.length > 5 && (
+                  <Button
+                    variant="text"
+                    color="error"
+                    onClick={() => setShowAllOrders((prev) => !prev)}
+                    sx={{ alignSelf: "center", mt: 1 }}
+                  >
+                    {showAllOrders
+                      ? t.showLess
+                      : `${t.showAll} (${orders.length})`}
+                  </Button>
+                )}
               </Box>
             )}
           </CardContent>

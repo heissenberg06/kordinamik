@@ -132,8 +132,8 @@ const StyledInput = styled("input")({
   boxSizing: "border-box",
   "&:focus": {
     outline: "none",
-    borderColor: "#6366f1",
-    boxShadow: "0 0 0 4px rgba(99, 102, 241, 0.1)",
+    borderColor: "#dc2626",
+    boxShadow: "0 0 0 4px rgba(220, 38, 38, 0.1)",
   },
 });
 
@@ -152,8 +152,8 @@ const StyledTextarea = styled("textarea")({
   boxSizing: "border-box",
   "&:focus": {
     outline: "none",
-    borderColor: "#6366f1",
-    boxShadow: "0 0 0 4px rgba(99, 102, 241, 0.1)",
+    borderColor: "#dc2626",
+    boxShadow: "0 0 0 4px rgba(220, 38, 38, 0.1)",
   },
 });
 
@@ -172,8 +172,8 @@ const FormGroup = styled(Box)({
 });
 
 const SubmitButton = styled("button")({
-  background: "linear-gradient(135deg, #f0f0f0 0%, #d0d0d0 100%)",
-  color: "#333333",
+  background: "linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)",
+  color: "#ffffff",
   border: "none",
   padding: "18px 50px",
   fontSize: "1.1rem",
@@ -207,7 +207,7 @@ const InfoItem = styled(Box)({
   transition: "all 0.3s ease",
   "&:hover": {
     transform: "translateX(10px)",
-    boxShadow: "0 5px 15px rgba(99, 102, 241, 0.1)",
+    boxShadow: "0 5px 15px rgba(220, 38, 38, 0.1)",
   },
 });
 

@@ -249,7 +249,7 @@ const Cart = () => {
           <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
             <ShoppingCartIcon color="error" />
             <Typography variant="h4" sx={{ fontWeight: 800 }}>
-              Sepetim
+              {t.title}
             </Typography>
           </Box>
           <Button
@@ -258,7 +258,7 @@ const Cart = () => {
             startIcon={<ArrowBackIcon />}
             variant="outlined"
           >
-            Ürünlere dön
+            {t.backToProducts}
           </Button>
         </TitleRow>
 
@@ -291,7 +291,7 @@ const Cart = () => {
                       component="img"
                       image={
                         item.image ||
-                        "https://via.placeholder.com/120x100?text=Kordinamik"
+                        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='100'%3E%3Crect width='120' height='100' fill='%23f3f4f6'/%3E%3C/svg%3E"
                       }
                       alt={item.name}
                       sx={{

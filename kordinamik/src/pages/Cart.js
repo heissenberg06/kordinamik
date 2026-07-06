@@ -23,6 +23,76 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import axios from "axios";
 import { API_BASE_URL } from "../config";
 import { Link, useNavigate } from "react-router-dom";
+import { useLanguage } from "../components/LanguageContext";
+
+const translations = {
+  tr: {
+    title: "Sepetim",
+    backToProducts: "Ürünlere dön",
+    emptyTitle: "Sepetiniz boş",
+    emptySubtitle: "Ürün eklemek için listeye göz atın.",
+    goToProducts: "Ürünlere Git",
+    orderSummary: "Sipariş Özeti",
+    noteLabel: "Not (opsiyonel)",
+    total: "Toplam",
+    quantity: "Adet",
+    sending: "Gönderiliyor...",
+    placeOrder: "Siparişi Gönder",
+    clearCart: "Sepeti Temizle",
+    clearCartTitle: "Sepeti Temizle",
+    clearCartConfirm: "Sepetteki tüm ürünler silinecek. Emin misiniz?",
+    cancel: "İptal",
+    confirmClear: "Evet, Temizle",
+    loginRequired: "Siparişi tamamlamak için lütfen giriş yapın.",
+    errorEmpty: "Sepetiniz boş.",
+    successOrder: "Siparişiniz alındı. Onay için admin paneline iletildi.",
+    errorOrder: "Sipariş gönderilemedi.",
+  },
+  en: {
+    title: "My Cart",
+    backToProducts: "Back to products",
+    emptyTitle: "Your cart is empty",
+    emptySubtitle: "Browse the product list to add items.",
+    goToProducts: "Go to Products",
+    orderSummary: "Order Summary",
+    noteLabel: "Note (optional)",
+    total: "Total",
+    quantity: "Qty",
+    sending: "Sending...",
+    placeOrder: "Place Order",
+    clearCart: "Clear Cart",
+    clearCartTitle: "Clear Cart",
+    clearCartConfirm: "All items in the cart will be removed. Are you sure?",
+    cancel: "Cancel",
+    confirmClear: "Yes, Clear",
+    loginRequired: "Please log in to complete your order.",
+    errorEmpty: "Your cart is empty.",
+    successOrder: "Your order has been received and forwarded for approval.",
+    errorOrder: "Failed to place order.",
+  },
+  ru: {
+    title: "Моя корзина",
+    backToProducts: "Назад к товарам",
+    emptyTitle: "Ваша корзина пуста",
+    emptySubtitle: "Просмотрите список товаров для добавления.",
+    goToProducts: "К товарам",
+    orderSummary: "Сводка заказа",
+    noteLabel: "Примечание (необязательно)",
+    total: "Итого",
+    quantity: "Кол-во",
+    sending: "Отправка...",
+    placeOrder: "Оформить заказ",
+    clearCart: "Очистить корзину",
+    clearCartTitle: "Очистить корзину",
+    clearCartConfirm: "Все товары в корзине будут удалены. Вы уверены?",
+    cancel: "Отмена",
+    confirmClear: "Да, очистить",
+    loginRequired: "Пожалуйста, войдите для оформления заказа.",
+    errorEmpty: "Ваша корзина пуста.",
+    successOrder: "Ваш заказ принят и направлен на подтверждение.",
+    errorOrder: "Не удалось оформить заказ.",
+  },
+};
 import { useCart } from "../components/CartContext";
 import { useDealer } from "../components/DealerContext";
 
@@ -71,6 +141,8 @@ const EmptyState = styled(Box)({
 
 const Cart = () => {
   const { cartItems, updateQuantity, removeFromCart, clearCart } = useCart();
+  const { currentLanguage } = useLanguage();
+  const t = translations[currentLanguage] || translations.tr;
   const { isAuthenticated, getAuthHeader } = useDealer();
   const [note, setNote] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -94,7 +166,7 @@ const Cart = () => {
     }
 
     if (cartItems.length === 0) {
-      setFeedback({ type: "error", text: "Sepetiniz boş." });
+      setFeedback({ type: "error", text: t.errorEmpty });
       return;
     }
 
@@ -115,14 +187,14 @@ const Cart = () => {
 
       setFeedback({
         type: "success",
-        text: "Siparişiniz alındı. Onay için admin paneline iletildi.",
+        text: t.successOrder,
       });
       clearCart();
       setNote("");
     } catch (error) {
       setFeedback({
         type: "error",
-        text: error.response?.data?.message || "Sipariş gönderilemedi.",
+        text: error.response?.data?.message || t.errorOrder,
       });
     } finally {
       setSubmitting(false);
@@ -137,7 +209,7 @@ const Cart = () => {
             <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
               <ShoppingCartIcon color="error" />
               <Typography variant="h4" sx={{ fontWeight: 800 }}>
-                Sepetim
+                {t.title}
               </Typography>
             </Box>
             <Button
@@ -146,15 +218,15 @@ const Cart = () => {
               startIcon={<ArrowBackIcon />}
               variant="outlined"
             >
-              Ürünlere dön
+              {t.backToProducts}
             </Button>
           </TitleRow>
           <EmptyState>
             <Typography variant="h6" sx={{ mb: 1 }}>
-              Sepetiniz boş
+              {t.emptyTitle}
             </Typography>
             <Typography sx={{ color: "#6b7280", mb: 3 }}>
-              Ürün eklemek için listeye göz atın.
+              {t.emptySubtitle}
             </Typography>
             <Button
               variant="contained"
@@ -162,7 +234,7 @@ const Cart = () => {
               component={Link}
               to="/urunlerimiz"
             >
-              Ürünlere Git
+              {t.goToProducts}
             </Button>
           </EmptyState>
         </Container>
@@ -246,7 +318,7 @@ const Cart = () => {
                       <TextField
                         size="small"
                         type="number"
-                        label="Adet"
+                        label={t.quantity}
                         inputProps={{ min: 1 }}
                         value={item.quantity}
                         onChange={(e) =>
@@ -280,9 +352,9 @@ const Cart = () => {
 
           <SummaryCard>
             <CardContent sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-              <Typography variant="h6">Sipariş Özeti</Typography>
+              <Typography variant="h6">{t.orderSummary}</Typography>
               <TextField
-                label="Not (opsiyonel)"
+                label={t.noteLabel}
                 multiline
                 minRows={3}
                 value={note}
@@ -296,7 +368,7 @@ const Cart = () => {
                   fontSize: "1.1rem",
                 }}
               >
-                <span>Toplam</span>
+                <span>{t.total}</span>
                 <span>
                   {Number(totalAmount || 0).toLocaleString("tr-TR", {
                     minimumFractionDigits: 2,
@@ -311,7 +383,7 @@ const Cart = () => {
                 onClick={handlePlaceOrder}
                 disabled={submitting}
               >
-                {submitting ? "Gönderiliyor..." : "Siparişi Gönder"}
+                {submitting ? t.sending : t.placeOrder}
               </Button>
               <Button
                 variant="text"
@@ -319,35 +391,35 @@ const Cart = () => {
                 onClick={() => setClearDialogOpen(true)}
                 disabled={submitting}
               >
-                Sepeti Temizle
+                {t.clearCart}
               </Button>
 
               <Dialog
                 open={clearDialogOpen}
                 onClose={() => setClearDialogOpen(false)}
               >
-                <DialogTitle>Sepeti Temizle</DialogTitle>
+                <DialogTitle>{t.clearCartTitle}</DialogTitle>
                 <DialogContent>
                   <DialogContentText>
-                    Sepetteki tüm ürünler silinecek. Emin misiniz?
+                    {t.clearCartConfirm}
                   </DialogContentText>
                 </DialogContent>
                 <DialogActions>
                   <Button onClick={() => setClearDialogOpen(false)}>
-                    İptal
+                    {t.cancel}
                   </Button>
                   <Button
                     color="error"
                     variant="contained"
                     onClick={() => { clearCart(); setClearDialogOpen(false); }}
                   >
-                    Evet, Temizle
+                    {t.confirmClear}
                   </Button>
                 </DialogActions>
               </Dialog>
               {!isAuthenticated && (
                 <Alert severity="info">
-                  Siparişi tamamlamak için lütfen giriş yapın.
+                  {t.loginRequired}
                 </Alert>
               )}
             </CardContent>

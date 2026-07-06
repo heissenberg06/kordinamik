@@ -44,6 +44,7 @@ const Orders = () => {
   const [statusFilter, setStatusFilter] = useState('');
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [actionLoading, setActionLoading] = useState(false);
+  const [confirmDialog, setConfirmDialog] = useState({ open: false, orderId: null, action: null });
 
   const fetchOrders = useCallback(async () => {
     try {
@@ -92,7 +93,12 @@ const Orders = () => {
       setError('Durum güncellenemedi. Tekrar deneyin.');
     } finally {
       setActionLoading(false);
+      setConfirmDialog({ open: false, orderId: null, action: null });
     }
+  };
+
+  const openConfirm = (orderId, action) => {
+    setConfirmDialog({ open: true, orderId, action });
   };
 
   return (
@@ -204,7 +210,7 @@ const Orders = () => {
                               color="success"
                               sx={{ mr: 1 }}
                               startIcon={<CheckCircleIcon />}
-                              onClick={() => handleStatusUpdate(order.id, 'approved')}
+                              onClick={() => openConfirm(order.id, 'approved')}
                               disabled={actionLoading}
                             >
                               Onayla
@@ -213,7 +219,7 @@ const Orders = () => {
                               size="small"
                               color="error"
                               startIcon={<CancelIcon />}
-                              onClick={() => handleStatusUpdate(order.id, 'rejected')}
+                              onClick={() => openConfirm(order.id, 'rejected')}
                               disabled={actionLoading}
                             >
                               Reddet
@@ -295,7 +301,7 @@ const Orders = () => {
               <Button
                 color="error"
                 startIcon={<CancelIcon />}
-                onClick={() => handleStatusUpdate(selectedOrder.id, 'rejected')}
+                onClick={() => openConfirm(selectedOrder.id, 'rejected')}
                 disabled={actionLoading}
               >
                 Reddet
@@ -304,13 +310,47 @@ const Orders = () => {
                 color="success"
                 variant="contained"
                 startIcon={<CheckCircleIcon />}
-                onClick={() => handleStatusUpdate(selectedOrder.id, 'approved')}
+                onClick={() => openConfirm(selectedOrder.id, 'approved')}
                 disabled={actionLoading}
               >
                 Onayla
               </Button>
             </>
           )}
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={confirmDialog.open}
+        onClose={() => setConfirmDialog({ open: false, orderId: null, action: null })}
+        maxWidth="xs"
+        fullWidth
+      >
+        <DialogTitle>
+          {confirmDialog.action === 'approved' ? 'Siparişi Onayla' : 'Siparişi Reddet'}
+        </DialogTitle>
+        <DialogContent>
+          <Typography>
+            {confirmDialog.action === 'approved'
+              ? 'Bu siparişi onaylamak istediğinize emin misiniz? Bu işlem geri alınamaz.'
+              : 'Bu siparişi reddetmek istediğinize emin misiniz? Bu işlem geri alınamaz.'}
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => setConfirmDialog({ open: false, orderId: null, action: null })}
+            disabled={actionLoading}
+          >
+            İptal
+          </Button>
+          <Button
+            color={confirmDialog.action === 'approved' ? 'success' : 'error'}
+            variant="contained"
+            onClick={() => handleStatusUpdate(confirmDialog.orderId, confirmDialog.action)}
+            disabled={actionLoading}
+          >
+            {actionLoading ? 'İşleniyor...' : confirmDialog.action === 'approved' ? 'Evet, Onayla' : 'Evet, Reddet'}
+          </Button>
         </DialogActions>
       </Dialog>
     </Box>

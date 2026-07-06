@@ -416,7 +416,7 @@ const SimpleProductForm = () => {
                   min: "0" 
                 }}
                 InputProps={{
-                  startAdornment: <Typography sx={{ mr: 1 }}>$</Typography>,
+                  startAdornment: <Typography sx={{ mr: 1 }}>₺</Typography>,
                 }}
               />
 
